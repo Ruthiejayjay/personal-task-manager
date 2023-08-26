@@ -1,0 +1,85 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+    "Find a single user by an identifying attribute."
+    user(
+      "Search by primary key."
+      id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+
+      "Search by email address."
+      email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
+    ): User @find
+
+    "List multiple users."
+    users(
+      "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
+      name: String @where(operator: "like")
+    ): [User!]! @paginate(defaultCount: 10)
+
+    tasks: [Task!]! @paginate(defaultCount: 10) @orderBy(column: "created_at", direction: DESC)
+    task(id: ID! @eq) : Task @find @guard
+    me: User! @guard @auth
+}
+
+type Mutation {
+  createTask(input: TaskInput! @spread) : Task @create @guard @inject(context: "user.id", name: "user_id")
+  updateTask(id: ID, input: TaskInput! @spread) : Task @update @guard @can(ability: "update", find: "id")
+  deleteTask(id: ID! @whereKey): Task @delete @guard @can(ability: "delete", find: "id")
+}
+
+enum TaskStatus {
+  PENDING 
+  INPROGRESS
+  COMPLETED
+}
+
+enum Categories {
+  PERSONAL 
+  WORK
+  OTHER
+}
+
+input TaskInput {
+  title: String!
+  description: String!
+  categories: Categories! 
+  status: TaskStatus
+  due_date: String!
+}
+"Account of a person who utilizes this application."
+type User {
+    "Unique primary key."
+    id: ID!
+    "Non-unique name."
+    name: String!
+    username: String!
+    "Unique email address."
+    email: String!
+    password: String!
+    tasks: [Task!]! @hasMany
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+}
+
+type Task {
+  id: ID!
+  title: String!
+  description: String!
+  status: TaskStatus!
+  categories: Categories!
+  author: User! @belongsTo
+  due_date: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+#import sanctum.graphql
+
