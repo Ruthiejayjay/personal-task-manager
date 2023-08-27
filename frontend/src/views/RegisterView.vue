@@ -44,7 +44,7 @@ export default {
           console.log(data)
           this.loading = false
           localStorage.setItem('apollo-token', data.data.register.token)
-          window.location.href = '/'
+          window.location.href = '/tasks/create'
         })
         .catch((error) => {
           console.log(error.graphQLErrors[0].message)

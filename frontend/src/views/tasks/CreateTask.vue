@@ -49,7 +49,7 @@ export default {
         .then((data) => {
           console.log(data)
           this.loading = false
-          this.$router.push({ name: 'home' })
+          window.location.href = '/'
         })
         .catch((error) => {
           console.log(error.graphQLErrors[0].message)

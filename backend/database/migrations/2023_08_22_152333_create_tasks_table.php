@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->enum('status', ['PENDING', 'INPROGRESS', 'COMPLETED'])->default('PENDING');
             $table->enum('categories', ['PERSONAL', 'WORK', 'OTHER' ]);
-            $table->string('due_date');
+            $table->date('due_date');
             $table->timestamps();
         });
     }
