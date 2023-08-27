@@ -20,11 +20,6 @@ export default {
             due_date
             categories
             status
-            author {
-              name
-              email
-              id
-            }
           }
         }
       `,
@@ -95,7 +90,7 @@ export default {
         <div class="self-end flex items-center gap-2">
           <router-link
             :to="{ name: 'update', params: { id: $route.params.id } }"
-            class="bg-orange-400 px-2 rounded-xl text-white text-sm"
+            class="bg-orange-400 px-3 py-1 rounded-xl text-white text-sm"
             >Update</router-link
           >
           <button @click="deleteTask">

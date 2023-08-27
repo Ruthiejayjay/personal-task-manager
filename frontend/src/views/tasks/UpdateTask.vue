@@ -62,8 +62,8 @@ export default {
       this.$apollo
         .mutate({
           mutation: gql`
-            mutation updateTask($id:ID! $input: TaskInput!) {
-              updateTask(id: $id input: $input) {
+            mutation updateTask($id: ID!, $input: TaskInput!) {
+              updateTask(id: $id, input: $input) {
                 title
                 description
                 categories
@@ -86,7 +86,7 @@ export default {
         .then((data) => {
           console.log(data)
           this.loading = false
-          this.$router.push({ name: 'home' })
+          window.location.href = '/'
         })
         .catch((error) => {
           console.log(error.graphQLErrors[0].message)
@@ -99,7 +99,7 @@ export default {
 </script>
 <template>
   <div class="mt-12 grid place-items-center">
-    <div class="border rounded-xl p-8 md:p-12">
+    <div class="border rounded-xl p-8 space-y-5 md:p-12">
       <div class="mx-auto flex justify-center" v-if="loading">
         <LoaderIcon />
       </div>

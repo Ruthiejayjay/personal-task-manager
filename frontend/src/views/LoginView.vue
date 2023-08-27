@@ -36,6 +36,7 @@ export default {
         })
         .then((data) => {
           console.log(data)
+          this.error = null
           this.loading = false
           localStorage.setItem('apollo-token', data.data.login.token)
           window.location.href = '/'
@@ -59,7 +60,7 @@ export default {
       <h1 class="text-xl font-semibold">Login Form</h1>
       <form @submit.prevent="login" class="mt-5 flex flex-col space-y-4">
         <!-- {{ error }} -->
-        <p v-if="error" class="text-xs text-red-500 font-semibold">Incorrect Login Details</p>
+        <p v-if="error" class="text-xs text-red-500 font-semibold">{{ error }}</p>
         <div class="flex flex-col">
           <input
             type="email"
@@ -92,79 +93,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-.ring {
-  transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: 3px solid #3c3c3c;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 80px;
-  font-family: sans-serif;
-  font-size: 12px;
-  color: gray;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  text-shadow: 0 0 10px gray;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
-.ring:before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 3px solid transparent;
-  border-top: 3px solid cyan;
-  border-right: 3px solid cyan;
-  border-radius: 50%;
-  animation: animateC 2s linear infinite;
-}
-
-span {
-  display: block;
-  position: absolute;
-  top: calc(50% - 2px);
-  left: 50%;
-  width: 50%;
-  height: 4px;
-  background: transparent;
-  transform-origin: left;
-  animation: animate 2s linear infinite;
-}
-
-span:before {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: orange;
-  top: -6px;
-  right: -8px;
-  box-shadow: 0 0 20px orange;
-}
-
-@keyframes animateC {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes animate {
-  0% {
-    transform: rotate(45deg);
-  }
-
-  100% {
-    transform: rotate(405deg);
-  }
-}
-</style>
