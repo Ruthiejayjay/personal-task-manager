@@ -120,6 +120,7 @@ export default {
               id="title"
               placeholder="Enter Task Title"
               v-model="title"
+              required
               class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
             />
           </div>
@@ -130,6 +131,7 @@ export default {
               name="due_date"
               id="due_date"
               v-model="due_date"
+              required
               class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
             />
           </div>
@@ -170,6 +172,7 @@ export default {
             id="description"
             cols="30"
             rows="5"
+            required
             class="pt-2 pl-6 border border-gray-400 rounded-md focus:outline-none"
           ></textarea>
         </div>

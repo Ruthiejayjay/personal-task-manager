@@ -72,12 +72,14 @@ export default {
             v-model="name"
             placeholder="Name"
             class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
+            required
           />
           <input
             type="text"
             name="username"
             v-model="username"
             placeholder="Username"
+            required
             class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
           />
         </div>
@@ -86,6 +88,7 @@ export default {
           name="email"
           v-model="email"
           placeholder="Email"
+          required
           class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
         />
 
@@ -94,6 +97,7 @@ export default {
           name="password"
           v-model="password"
           placeholder="Password"
+          required
           class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
         />
 
@@ -102,6 +106,7 @@ export default {
           name="confirmPassword"
           v-model="password_confirmation"
           placeholder="Confirm Password"
+          required
           class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
         />
 

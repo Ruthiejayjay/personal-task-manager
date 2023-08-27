@@ -24,6 +24,7 @@ type Query {
     tasks: [Task!]! @paginate(defaultCount: 10) @orderBy(column: "created_at", direction: DESC)
     task(id: ID! @eq) : Task @find @guard
     tasksByStatus(status: TaskStatus! @eq) :[Task!] @paginate(defaultCount: 10) @orderBy(column: "created_at", direction: DESC)
+    tasksByCategory(categories: Categories! @eq) :[Task!] @paginate(defaultCount: 10) @orderBy(column: "created_at", direction: DESC)
     me: User! @guard @auth
 }
 
@@ -50,7 +51,7 @@ input TaskInput {
   description: String!
   categories: Categories! 
   status: TaskStatus
-  due_date: String!
+  due_date: Date! @rules(apply: ["after:yesterday"])
 }
 "Account of a person who utilizes this application."
 type User {

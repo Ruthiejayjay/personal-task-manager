@@ -21,6 +21,7 @@ Users should be able to:
 - Register and Login
 - Add, Update, Read and Delete Tasks
 - Tasks are cateorized into three categories: Personal, Work and Others
+- Filter tasks by status and category
 - Logout
 
 ### Live Links
