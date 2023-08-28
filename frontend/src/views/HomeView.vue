@@ -177,12 +177,12 @@ export default {
       <LoaderIcon />
     </div>
     <div else>
-      <div v-if="authStore.isGuest" class="mx-auto flex justify-center">
-        <h1 class="text-base font-semibold">You have no task. Login to Add Task</h1>
+      <div v-if="authStore.isGuest" class="mx-auto mt-12 flex justify-center">
+        <h1 class="text-lg font-semibold">You have no task. Login to Add Task</h1>
       </div>
       <div v-else>
-        <div class="flex justify-between items-center flex-col gap-y-4 md:flex-row">
-          <div class="md:w-96 flex justify-evenly items-center gap-x-6">
+        <div class="flex justify-between items-center flex-col gap-y-4 md:flex-row md:mx-16">
+          <div class="flex justify-evenly items-center gap-x-6">
             <h1 class="text-xl font-semibold md:ml-8">{{ me.username }} Tasks:</h1>
 
             <router-link
@@ -225,7 +225,7 @@ export default {
         </div>
 
         <div
-          class="mt-8  grid grid-cols-1 items-center justify-center gap-y-8 md:px-6 md:ml-8 md:grid-cols-2 lg:grid-cols-3"
+          class="mt-8 mx-auto grid grid-cols-1 items-center justify-center gap-y-8 md:px-6 md:mx-16 md:grid-cols-2 lg:grid-cols-3"
         >
           <template v-for="task in tasks" :key="task.id">
             <div
