@@ -18,6 +18,7 @@ export default {
       description: '',
       due_date: '',
       categories: '',
+      sucessMessage: '',
       error: null,
       emptyError: null,
       options: ['PERSONAL', 'WORK', 'OTHER']
@@ -53,6 +54,7 @@ export default {
         .then((data) => {
           console.log(data)
           this.loading = false
+          this.sucessMessage = 'Task Created'
           window.location.href = '/'
         })
         .catch((error) => {
@@ -81,6 +83,9 @@ export default {
         <div>
           <p v-if="emptyError" class="text-xs text-red-500 font-semibold">Incorrect Task details</p>
           <p v-if="error" class="text-xs text-red-500 font-semibold">{{ error }}</p>
+          <p v-if="sucessMessage" class="text-xs text-green-500 font-semibold">
+            {{ sucessMessage }}
+          </p>
         </div>
         <div class="flex flex-col md:space-x-4 md:flex-row">
           <div class="flex flex-col">
@@ -124,7 +129,7 @@ export default {
         <div class="flex flex-col">
           <label for="description">Description</label>
           <textarea
-          required
+            required
             v-model="description"
             name="description"
             id="description"

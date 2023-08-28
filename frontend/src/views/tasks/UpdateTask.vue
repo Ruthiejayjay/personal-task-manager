@@ -180,7 +180,7 @@ export default {
           class="transition ease-in w-full h-9 cursor-pointer rounded-xl bg-slate-700 text-white hover:bg-cyan-400 hover:-translate-y-1 duration-300 btn"
         >
           <ButtonComponent type="submit" loading-class="rounded-[5rem]">
-            Create Task
+            Update Task
           </ButtonComponent>
         </div>
       </form>

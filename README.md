@@ -26,8 +26,9 @@ Users should be able to:
 
 ### Live Links
 
-- Backend URL: [Add solution URL here](https://your-solution-url.com)
-- Frontend URL: [Add live site URL here](https://your-live-site-url.com)
+- Backend URL: [Live GraphQl Api](https://ruth-labs.jameesjohn.com/graphql) - For Api
+- GraphQl Playground: [Live GraphQl Playground](https://ruth-labs.jameesjohn.com/graphiql/)
+- Frontend URL: [Personal Task Manger](https://ruth-personal-task-manager.netlify.app/)
 
 ### Built with
 
@@ -87,3 +88,5 @@ npm run dev
 Api url: http://localhost:8000/api
 
 Check routes/api.php file for different routes
+
+Update main.js and frontend/.env with local base url

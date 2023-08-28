@@ -46,7 +46,6 @@ defineProps({
       class="flex h-full w-full cursor-not-allowed items-center justify-center gap-x-2 md:gap-x-2"
     >
       <slot>Button text</slot>
-      <img src="../icons/svgs/loading-icon.svg" alt="loading-svg" class="block" v-if="loading" />
     </div>
   </button>
 </template>

@@ -24,7 +24,7 @@ export default {
       this.$apollo
         .mutate({
           mutation: gql`
-            mutation login($input: RegisterInput!) {
+            mutation register($input: RegisterInput!) {
               register(input: $input) {
                 token
               }
