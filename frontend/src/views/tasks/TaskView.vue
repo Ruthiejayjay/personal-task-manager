@@ -59,7 +59,7 @@ export default {
 </script>
 <template>
   <div class="mx-auto mt-20 flex flex-col justify-center md:mx-52">
-    <div v-if="$apollo.queries.task.loading">
+    <div v-if="$apollo.queries.task.loading" class="mx-auto flex justify-center">
       <LoaderIcon />
     </div>
     <div v-else class="space-y-4">

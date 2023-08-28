@@ -1,13 +1,15 @@
 <script>
 import { ButtonComponent } from '../../components/reusables'
 import LoaderIcon from '../../components/icons/LoaderIcon.vue'
+import { RiArrowLeftLine } from 'vue-remix-icons'
 import Multiselect from '@vueform/multiselect'
 import gql from 'graphql-tag'
 export default {
   components: {
     ButtonComponent,
     LoaderIcon,
-    Multiselect
+    Multiselect,
+    RiArrowLeftLine
   },
   data() {
     return {
@@ -17,12 +19,14 @@ export default {
       due_date: '',
       categories: '',
       error: null,
+      emptyError: null,
       options: ['PERSONAL', 'WORK', 'OTHER']
     }
   },
   methods: {
     createTask() {
       this.loading = true
+      this.emptyError = null
       this.error = null
       this.$apollo
         .mutate({
@@ -54,7 +58,9 @@ export default {
         .catch((error) => {
           console.log(error.graphQLErrors[0].message)
           this.loading = false
-          this.error = error.graphQLErrors[0].message
+          this.emptyError = error.graphQLErrors[0].message
+          const key = Object.keys(error.graphQLErrors[0].extensions.validation)[0]
+          this.error = error.graphQLErrors[0].extensions.validation[key][0]
         })
     }
   }
@@ -62,14 +68,20 @@ export default {
 </script>
 <template>
   <div class="mt-12 grid place-items-center">
-    <div class="border rounded-xl p-8 md:p-12">
+    <div class="border rounded-xl p-8 space-y-5 md:p-12">
       <div class="mx-auto flex justify-center" v-if="loading">
         <LoaderIcon />
       </div>
+      <router-link :to="{ name: 'home' }" class="flex items-center font-semibold">
+        <RiArrowLeftLine class="w-6" />
+        Back
+      </router-link>
       <h1 class="text-xl font-semibold">Add New Task</h1>
       <form @submit.prevent="createTask" class="mt-5 flex flex-col space-y-6">
-        <!-- {{ error }} -->
-        <p v-if="error" class="text-xs text-red-500 font-semibold">Incorrect Task details</p>
+        <div>
+          <p v-if="emptyError" class="text-xs text-red-500 font-semibold">Incorrect Task details</p>
+          <p v-if="error" class="text-xs text-red-500 font-semibold">{{ error }}</p>
+        </div>
         <div class="flex flex-col md:space-x-4 md:flex-row">
           <div class="flex flex-col">
             <label for="title">Title</label>
@@ -79,6 +91,7 @@ export default {
               id="title"
               placeholder="Enter Task Title"
               v-model="title"
+              required
               class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
             />
           </div>
@@ -89,6 +102,7 @@ export default {
               name="due_date"
               id="due_date"
               v-model="due_date"
+              required
               class="h-10 pl-2 border border-gray-400 rounded-md focus:outline-none"
             />
           </div>
@@ -110,6 +124,7 @@ export default {
         <div class="flex flex-col">
           <label for="description">Description</label>
           <textarea
+          required
             v-model="description"
             name="description"
             id="description"

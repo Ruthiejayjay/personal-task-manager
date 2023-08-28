@@ -9,7 +9,6 @@ export default {
   data() {
     return {
       tasks: [],
-      search: '',
       loading: false
     }
   },
@@ -32,7 +31,7 @@ export default {
       if (this.search.trim().length > 0) {
         return this.tasks.filter((task) =>
           (task.title || task.description).toLowerCase().includes(this.search.trim().toLowerCase())
-        );
+        )
       }
       return this.tasks
     }
@@ -79,6 +78,48 @@ export default {
       } else {
         return this.getTasksByStatus(status)
       }
+    },
+    handleCategoryFilter(event) {
+      const category = event.target.value
+      if (category == 'Tasks') {
+        return this.getAllTasks()
+      } else {
+        return this.getTasksByCategory(category)
+      }
+    },
+    getTasksByCategory(category) {
+      this.loading = true
+      const baseUrl = import.meta.env.VITE_API_URL
+      fetch(baseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/json'
+        },
+        body: JSON.stringify({
+          query: `
+            query {
+              tasksByCategory(categories: ${category}){
+                data {
+                  id
+                  title
+                  status
+                  description
+                  due_date
+                  categories
+                  author{
+                    id
+                  } 
+                }
+              }
+            }
+          `
+        })
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          this.loading = false
+          this.tasks = result.data.tasksByCategory.data
+        })
     },
     getTasksByStatus(status) {
       this.loading = true
@@ -136,12 +177,12 @@ export default {
       <LoaderIcon />
     </div>
     <div else>
-      <div v-if="authStore.isGuest" class="mx-auto flex justify-center">
-        <h1 class="text-base font-semibold">You have no task. Login to Add Task</h1>
+      <div v-if="authStore.isGuest" class="mx-auto mt-12 flex justify-center">
+        <h1 class="text-lg font-semibold">You have no task. Login to Add Task</h1>
       </div>
       <div v-else>
-        <div class="flex justify-between items-center flex-col gap-y-4 md:flex-row">
-          <div class="md:w-96 flex justify-evenly items-center gap-x-6">
+        <div class="flex justify-between items-center flex-col gap-y-4 md:flex-row md:mx-16">
+          <div class="flex justify-evenly items-center gap-x-6">
             <h1 class="text-xl font-semibold md:ml-8">{{ me.username }} Tasks:</h1>
 
             <router-link
@@ -153,17 +194,18 @@ export default {
           </div>
           <div class="flex space-x-2">
             <div
-              class="relative w-[16rem] p-2 border flex justify-between items-center border-gray-300 rounded-3xl"
+              class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl focus:outline-none"
             >
-              <RiSearchLine class="absolute h-6 w-4" />
-              <input
-                type="search"
-                placeholder="Search"
-                name="search"
-                id="search"
-                v-model="search"
-                class="pl-5 text-base focus:outline-none"
-              />
+              <select
+                @change="handleCategoryFilter"
+                class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold focus:outline-none"
+              >
+                <option value="Tasks" selected>Categories</option>
+                <option value="WORK">Work</option>
+                <option value="PERSONAL">Personal</option>
+                <option value="OTHER">Other</option>
+              </select>
+              <ArrowIcon />
             </div>
             <div
               class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl focus:outline-none"
@@ -172,7 +214,7 @@ export default {
                 @change="handleStatusChange"
                 class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold focus:outline-none"
               >
-                <option value="Tasks" selected>All</option>
+                <option value="Tasks" selected>Status</option>
                 <option value="PENDING">Pending</option>
                 <option value="INPROGRESS">In-Progress</option>
                 <option value="COMPLETED">Completed</option>
@@ -181,12 +223,9 @@ export default {
             </div>
           </div>
         </div>
-        <!-- <div v-if="!tasks.length">
-          <p>No Tasks. Add New Task</p>
-        </div> -->
 
         <div
-          class="mt-8 grid grid-cols-1 items-center justify-center gap-y-8 md:px-6 md:grid-cols-2 lg:grid-cols-3"
+          class="mt-8 mx-auto grid grid-cols-1 items-center justify-center gap-y-8 md:px-6 md:mx-16 md:grid-cols-2 lg:grid-cols-3"
         >
           <template v-for="task in tasks" :key="task.id">
             <div
@@ -231,7 +270,6 @@ export default {
             </div>
           </template>
         </div>
-     
       </div>
     </div>
   </div>
