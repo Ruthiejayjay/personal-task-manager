@@ -22,7 +22,7 @@ function getHeaders() {
 // HTTP connection to the API
 const httpLink = createHttpLink({
   // You should use an absolute URL here
-  uri: 'http://localhost:8000/graphql',
+  uri: 'https://ruth-labs.jameesjohn.com/graphql',
   headers: getHeaders()
 })
 
